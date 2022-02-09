@@ -49,3 +49,7 @@ textarea {
 a {
   cursor: pointer;
 }
+
+canvas {
+  background-color: #264653;
+}

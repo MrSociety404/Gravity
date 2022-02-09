@@ -1,8 +1,8 @@
+import { colors } from "../features/config";
+import { randomColor, randomIntRange } from "../features/utils";
 import { Ball } from "./Ball";
-import { Scene } from "./Scene";
-
+import Scene from "./Scene";
 export class Game {
-  scene = new Scene();
   private balls: Ball[];
 
   public constructor() {}
@@ -20,9 +20,16 @@ export class Game {
    */
   private generate(): void {
     this.balls = [];
-    for (let i = 0; i < 4; i++) {
-      this.balls.push(new Ball(1, 2, 2, "red"));
-    }
+    for (let i = 0; i < 100; i++) {
+      const radius = randomIntRange(20,30);
+      const x = randomIntRange(radius, Scene.canvas.width)
+      const y = randomIntRange(0, Scene.canvas.height - radius - 200)
+      const dy = randomIntRange(-2, 2)
+      const dx = randomIntRange(-2,2)
+
+      // Add balls to the list
+      this.balls.push(new Ball(x, y, dx, dy, radius, randomColor(colors)));
+    }    
   }
 
   /**
@@ -31,12 +38,7 @@ export class Game {
   private animate = (): void => {
     // clear the scene
     requestAnimationFrame(this.animate);
-    this.scene.c.clearRect(
-      0,
-      0,
-      this.scene.canvas.width,
-      this.scene.canvas.height
-    );
+    Scene.context.clearRect(0,0,Scene.canvas.width,Scene.canvas.height);
 
     // Update balls
     this.balls.forEach((ball) => {

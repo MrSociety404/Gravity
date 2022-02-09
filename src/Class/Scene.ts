@@ -1,9 +1,13 @@
-export class Scene {
+class Scene {
   canvas: HTMLCanvasElement;
-  c: CanvasRenderingContext2D;
+  context: CanvasRenderingContext2D;
 
   constructor() {
     this.canvas = document.querySelector<HTMLCanvasElement>("#canvas");
-    this.c = this.canvas.getContext("2d");
+    this.context = this.canvas.getContext("2d");
+    this.canvas.width = window.innerWidth
+    this.canvas.height = window.innerHeight
   }
 }
+
+export default new Scene();

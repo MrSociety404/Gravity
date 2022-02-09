@@ -1,7 +1,5 @@
-import { Scene } from "./Scene";
-
-const friction = 2;
-const gravity = 2;
+import { friction, gravity } from "../features/config";
+import Scene from "./Scene";
 
 export class Ball {
   x: number;
@@ -10,7 +8,7 @@ export class Ball {
   dx: number;
   radius: number;
   color: string;
-  scene = new Scene();
+  
   /**
    *
    * @param { Number } x X coordonate
@@ -18,9 +16,11 @@ export class Ball {
    * @param { Number } radius Ball radius
    * @param { String } color ball color
    */
-  public constructor(x: number, y: number, radius: number, color: string) {
+  public constructor(x:number, y:number, dx:number, dy:number ,radius: number, color: string) {
     this.x = x;
     this.y = y;
+    this.dx = dx;
+    this.dy = dy;
     this.radius = radius;
     this.color = color;
   }
@@ -30,12 +30,12 @@ export class Ball {
    * @param canvas { CanvasRenderingContext2D } canvas context
    */
   public draw = () => {
-    this.scene.c.beginPath();
-    this.scene.c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    this.scene.c.fillStyle = this.color;
-    this.scene.c.fill();
-    this.scene.c.stroke();
-    this.scene.c.closePath();
+    Scene.context.beginPath();
+    Scene.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    Scene.context.fillStyle = this.color;
+    Scene.context.fill();
+    Scene.context.stroke();
+    Scene.context.closePath();
   };
 
   /**
@@ -44,19 +44,17 @@ export class Ball {
    * @param canvas Canvas html element
    */
   public update = () => {
-    if (this.y + this.radius + this.dy > this.scene.canvas.height) {
-      this.dy = -this.dy * friction;
+    if( this.y + this.radius + this.dy > Scene.canvas.height) {
+      this.dy = -this.dy * friction
     } else {
-      this.dy += gravity;
+      this.dy += gravity
     }
-
-    if (
-      this.x + this.radius > this.scene.canvas.width ||
-      this.x - this.radius <= 0
-    ) {
+    if (this.x + this.radius > Scene.canvas.width || this.x - this.radius <= 0) {
       this.dx = -this.dx;
     }
-    this.x += this.dx;
+
+
+    this.x += this.dx
     this.y += this.dy;
     this.draw();
   };
